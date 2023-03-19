@@ -1,18 +1,30 @@
 import express from 'express';
 import { Aluno } from './classes/aluno.js';
 import { Professor } from './classes/professor.js';
+import { InicializaProfessores } from './init/init.js'
+import { InicializaAlunos } from './init/init.js'
+
+/** 
+ * Criando um servidor com a API express
+ * e definindo a porta de acesso para 3000 
+ * */ 
 const server = express();
 const port = 3000;
 
+/** 
+ * Definindo o uso da biblioteca JSON pelo servidor
+ */
 server.use(express.json());
 
-//let p1 = new Professor('Renato Oliveira', 33);
-//let p2 = new Professor('José Mateus', 38);
+/** carrega cadastros de professores e alunos
+ * em variaveis (somente para testes)
+ * */ 
+let professores = new InicializaProfessores;
+let alunos = new InicializaAlunos;
 
-let professores = [];
-let alunos = [];
-
-// Rota professores
+/**
+ * Rotas HTTP para trabalhar com a classe professore
+ */
 // listar todos os professores
 server.get('/professores', (req, res) => {
     return res.json(professores);
@@ -59,7 +71,9 @@ server.delete('/professores/:index', (req, res) => {
     }
 });
 
-// Rota alunos
+/**
+ * Rotas HTTP para trabalhar com a classe aluno
+ */
 // listar todos os alunos
 server.get('/alunos', (req, res) => {
     return res.json(alunos);
@@ -107,6 +121,9 @@ server.delete('/alunos/:index', (req, res) => {
     }
 });
 
+/**
+ * Servidor executando na porta 3000, definida no início do código
+ */
 server.listen(port, () => {
     console.log(`Aplicação executando em http://localhost:${port}/`);
 });
