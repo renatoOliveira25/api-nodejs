@@ -1,26 +1,9 @@
 import express from 'express';
-import { Aluno } from './classes/aluno.js';
-import { Professor } from './classes/professor.js';
+
 import { InicializaProfessores } from './init/init.js'
 import { InicializaAlunos } from './init/init.js'
 
-
-/**
- * ARQUIVO APOSENTADO!!!
- * RODAR PELO SERVER.JS AGORA
- */
-
-/** 
- * Criando um servidor com a API express
- * e definindo a porta de acesso para 3000 
- * */ 
-const server = express();
-const port = 3000;
-
-/** 
- * Definindo o uso da biblioteca JSON pelo servidor
- */
-server.use(express.json());
+const router = express.Router();
 
 /** carrega cadastros de professores e alunos
  * em variaveis (somente para testes)
@@ -32,19 +15,19 @@ let alunos = new InicializaAlunos;
  * Rotas HTTP para trabalhar com a classe professore
  */
 // listar todos os professores
-server.get('/professores', (req, res) => {
+router.get('/professores', (req, res) => {
     return res.json(professores);
 });
 
-// listar apenas um professor
-server.get('/professores/:index', (req, res) => {
+// listar apenas um professor, passando o índice
+router.get('/professores/:index', (req, res) => {
     const { index } = req.params;
 
     return res.json(professores[index]);
 });
 
 // cadastrar um novo professor
-server.post('/professores', (req, res) => {
+router.post('/professores', (req, res) => {
     const { nome, idade, nif } = req.body;
 
     const novoProfessor = new Professor(nome, idade, nif);
@@ -54,8 +37,8 @@ server.post('/professores', (req, res) => {
     return res.json(professores);
 });
 
-// atualizar um professor
-server.put('/professores/:index', (req, res) => {
+// atualizar um professor, passando o índice
+router.put('/professores/:index', (req, res) => {
     const { index } = req.params;
     const { nome, idade } = req.body;
 
@@ -65,8 +48,8 @@ server.put('/professores/:index', (req, res) => {
     return res.json(professores);
 })
 
-// deleta um professor
-server.delete('/professores/:index', (req, res) => {
+// deleta um professor, passando o índice
+router.delete('/professores/:index', (req, res) => {
     const { index } = req.params;
 
     if(index <= professores.length) {
@@ -81,19 +64,19 @@ server.delete('/professores/:index', (req, res) => {
  * Rotas HTTP para trabalhar com a classe aluno
  */
 // listar todos os alunos
-server.get('/alunos', (req, res) => {
+router.get('/alunos', (req, res) => {
     return res.json(alunos);
 });
 
-// listar apenas um aluno
-server.get('/alunos/:index', (req, res) => {
+// listar apenas um aluno, passando o índice
+router.get('/alunos/:index', (req, res) => {
     const { index } = req.params;
 
     return res.json(alunos[index]);
 });
 
 // cadastrar um novo aluno
-server.post('/alunos', (req, res) => {
+router.post('/alunos', (req, res) => {
     const { nome, idade, matricula } = req.body;
 
     const novoAluno = new Aluno(nome, idade, matricula);
@@ -103,8 +86,8 @@ server.post('/alunos', (req, res) => {
     return res.json(alunos);
 });
 
-// atualizar um aluno
-server.put('/alunos/:index', (req, res) => {
+// atualizar um aluno, passando o índice
+router.put('/alunos/:index', (req, res) => {
     const { index } = req.params;
     const { nome, idade, matricula } = req.body;
 
@@ -115,8 +98,8 @@ server.put('/alunos/:index', (req, res) => {
     return res.json(alunos);
 })
 
-// deleta um aluno
-server.delete('/alunos/:index', (req, res) => {
+// deleta um aluno, passando o índice
+router.delete('/alunos/:index', (req, res) => {
     const { index } = req.params;
 
     if(index <= professores.length) {
@@ -127,9 +110,4 @@ server.delete('/alunos/:index', (req, res) => {
     }
 });
 
-/**
- * Servidor executando na porta 3000, definida no início do código
- */
-server.listen(port, () => {
-    console.log(`Aplicação executando em http://localhost:${port}/`);
-});
+export { router };
