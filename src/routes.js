@@ -2,6 +2,8 @@ import express from 'express';
 
 import { InicializaProfessores } from './init/init.js'
 import { InicializaAlunos } from './init/init.js'
+import { Professor } from './classes/professor.js';
+import { Aluno } from './classes/aluno.js';
 
 const router = express.Router();
 
